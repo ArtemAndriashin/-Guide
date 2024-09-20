@@ -8,6 +8,6 @@
 
     <style name="Theme.ShawermaGuide" parent="Base.Theme.ShawermaGuide" />
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/photo</item>
+        <item name="android:windowBackground">@drawable/white</item>
     </style>
 </resources>

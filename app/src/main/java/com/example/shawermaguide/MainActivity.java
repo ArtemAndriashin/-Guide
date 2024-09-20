@@ -1,10 +1,14 @@
 package com.example.shawermaguide;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -20,32 +24,95 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import android.location.Location;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallback*/ {
 
-    private static final int REQUEST_LOCATION_PERMISSION = 1;
+    /*private static final int REQUEST_LOCATION_PERMISSION = 1;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback locationCallback;
+    private LocationCallback locationCallback;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        setContentView(R.layout.activity_sign_in_window);
+
+        TextView email = findViewById(R.id.email);
+        TextView password = findViewById(R.id.password);
+        ConstraintLayout button = findViewById(R.id.button);
+
+        String emailText = email.getText().toString();
+        String passwordText = password.getText().toString();
+
+        SharedPreferences sp = getSharedPreferences("PC", Context.MODE_PRIVATE);
+        String value = sp.getString("TY", "-9");
+        SharedPreferences.Editor editor = sp.edit();
+
+        if (!value.equals("-9")) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        } else {
+            TextView signUpText = findViewById(R.id.signUpText);
+            signUpText.setOnClickListener(view -> {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            });
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            button.setOnClickListener(new View.OnClickListener() {
+                boolean df = false;
+                @Override
+                public void onClick(View v) {
+                    db.collection("users")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Toast.makeText(MainActivity.this, "",Toast.LENGTH_LONG).show();
+                                            if (document.getString("email") == emailText) {
+                                                if (document.getString("password") == passwordText) {
+                                                    df = true;
+                                                    editor.putString("Email", emailText).commit();
+                                                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Неполучилось, попробуйте позже!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                }
+            });
+
+        }
+
+        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -62,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
                 }
             }
-        };
+        };*/
     }
-
+/*
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -164,6 +231,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             // Плавное перемещение камеры
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
-    }
-
+    }*/
 }
