@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "276161507363",
+    "project_id": "shawermaguide",
+    "storage_bucket": "shawermaguide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276161507363:android:af647f449bbdd027d94196",
+        "android_client_info": {
+          "package_name": "com.example.shawermaguide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADr43-hqb90VTlcJLTTQeWpkbdDx8OYv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
