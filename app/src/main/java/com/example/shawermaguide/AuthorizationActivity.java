@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class AuthorizationActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
-    private TextView registerButton;
+    private TextView registerButton, forgotPasswordButton;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -24,12 +24,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-
-
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
+        forgotPasswordButton = findViewById(R.id.forgotPassword);
         firebaseAuth = FirebaseAuth.getInstance();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +44,13 @@ public class AuthorizationActivity extends AppCompatActivity {
                 startActivity(new Intent(AuthorizationActivity.this, RegistrationActivity.class));
             }
         });
+
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AuthorizationActivity.this, PasswordRecoveryActivity.class));
+            }
+        });
     }
 
     private void loginUser() {
@@ -52,9 +58,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (email.isEmpty() || !email.contains("@")) {
-            Toast.makeText(AuthorizationActivity.this, "Проверьте поле Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Проверьте поле Email", Toast.LENGTH_SHORT).show();
+            return;
         } else if (password.isEmpty() || password.length() < 6) {
-            Toast.makeText(AuthorizationActivity.this, "Пароль слишком короткий", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Пароль слишком короткий", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
