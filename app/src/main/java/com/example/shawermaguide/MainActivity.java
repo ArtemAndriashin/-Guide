@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync((OnMapReadyCallback) this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity /*implements OnMapReadyCallb
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
                 }
             }
-        };
+        };*/
     }
     /*@Override
     public void onMapReady(@NonNull GoogleMap googleMap) {

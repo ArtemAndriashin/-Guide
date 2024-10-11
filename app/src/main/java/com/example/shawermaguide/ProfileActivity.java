@@ -46,6 +46,9 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView favorites;
 
     //main_3
+    private TextView distribution;
+
+    //main_4
     private TextView exitButton;
     private TextView deleteButton;
 
@@ -79,6 +82,8 @@ public class ProfileActivity extends AppCompatActivity {
         reviews = findViewById(R.id.reviews);
         favorites = findViewById(R.id.favorites);
 
+        distribution = findViewById(R.id.distribution);
+
         exitButton = findViewById(R.id.exitButton);
         deleteButton = findViewById(R.id.deleteButton);
 
@@ -105,6 +110,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, FavoritesActivity.class));
+            }
+        });
+
+        distribution.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, DistributionActivity.class));
             }
         });
 

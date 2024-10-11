@@ -66,6 +66,8 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(RegistrationActivity.this, "Пароль надто короткий", Toast.LENGTH_SHORT).show();
         }else if (!repeatedPassword.equals(password)){
             Toast.makeText(RegistrationActivity.this, "Паролі повинні збігатися", Toast.LENGTH_SHORT).show();
+        }else if(dataBirth.isEmpty()){
+            Toast.makeText(RegistrationActivity.this, "Вкажіть дату народження", Toast.LENGTH_SHORT).show();
         }else {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
